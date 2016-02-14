@@ -1,7 +1,7 @@
 <snippet>
-  <content><![CDATA[
+  <content>
   
-# ${1:CompInfo}
+# CompInfo
 A script that takes Powershell queries to gather information on your local or remote Windows machines.
 
 ## Installation
@@ -30,6 +30,6 @@ Simply download the script.
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
-]]></content>
+</content>
   <tabTrigger>readme</tabTrigger>
 </snippet>
