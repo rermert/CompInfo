@@ -5,7 +5,7 @@
 A script that takes Powershell queries to gather information on your local or remote Windows machines.
 
 ## Installation
-Simply download the script.
+Download and extract the zip file.
 
 ## Usage
 1. Launch PowerShell
