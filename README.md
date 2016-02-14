@@ -9,8 +9,8 @@ Simply download the script.
 
 ## Usage
 1. Launch PowerShell
-2. Navigate to the directory where CompInfo.ps1 is located: PS> cd C:\my_path\...\ (enter)
-3. Execute the script: PS> .\CompInfo.ps1
+2. Navigate to the directory where CompInfo.ps1 is located: `PS> cd C:\my_path\...\ (enter)`
+3. Execute the script: `PS> .\CompInfo.ps1`
 
 ## Notes/Debugging
 1. If you haven't ran a Powershell script before you may run into the following error:
