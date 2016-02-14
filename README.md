@@ -18,9 +18,9 @@ Download and extract the zip file.
    To fix this, open Powershell and run the following command: 
    `Set-ExecutionPolicy RemoteSigned`
 2. If you are trying to query a remote machine, the following must be true:
-   1) You are querying a windows machine
-   2) The machine is currently on and a user is logged in
-   3) The machine is connected to the RPC server
+   1.  You are querying a windows machine
+   2.  The machine is currently on and a user is logged in
+   3.  The machine is connected to the RPC server
 3. For any further questions/concerns please open a new issue
 
 ## Contributing
