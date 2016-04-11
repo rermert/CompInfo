@@ -2,7 +2,7 @@
   <content>
   
 # CompInfo
-A script that takes Powershell queries to gather information on your local or remote Windows machines.
+A script that uses Powershell queries to gather information on your local or remote Windows machines.
 
 ## Installation
 Download and extract the zip file.
