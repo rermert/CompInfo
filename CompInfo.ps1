@@ -1,5 +1,25 @@
-﻿
-# ALL acquired values should be of type string
+﻿<###############################################################################################
+ # Author: Ryan Ermert
+ # Version: 1.3
+ # Last Updated: 06/28/2016
+ #
+ # Filename: CompInfo.ps1
+ #
+ # Description: Gathers and outputs general computer information. Works with local 
+ #              and network (RPC) computers.
+ #
+ # Notes: 
+ #   - Only compatible with Windows Machines.
+ #   - Will not work if network computers are not connected to the RPC server.
+ #   - May not work if network computer is not logged into.
+ #   - All acquired values should be of type string
+ #
+ # TODO: 
+ #   - Give option to output to file?
+ #   - Add parameters?
+ #   - Fix multiple MAC address issue
+ #     - Splitting single address (1 char at a time)
+ ###############################################################################################>
 
 # Time the program to help debug
 $elapsed = [System.Diagnostics.Stopwatch]::StartNew()
@@ -106,7 +126,7 @@ If ($macArray.length -gt 0)
 } #>
 #Else
 #{
-    Write-Output ("MAC" + "1" + ": " + $macAddress)
+    Write-Output ("MAC" + ": " + $macAddress)
 #}
 Write-Output ("IPAddress1: " + $ipAddress)
 Write-Output ("Model: " + $modelName)
