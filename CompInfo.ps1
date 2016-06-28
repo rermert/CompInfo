@@ -21,6 +21,12 @@
  #     - Splitting single address (1 char at a time)
  ###############################################################################################>
 
+# Set program optional parameters
+param (
+    [Parameter(Mandatory = $false)][string]$computername, 
+    [Parameter(Mandatory = $false)][string]$outpath
+)
+
 # Time the program to help debug
 $elapsed = [System.Diagnostics.Stopwatch]::StartNew()
 
@@ -29,31 +35,34 @@ $arrayYes = "yes", "y", "ok"
 $arrayNo = "no", "n"
 $valid = 0
 
-# Prompting user to determine which machine to inventory
-DO
-{
-    $thisCompYN = read-host -prompt "Would you like to inventory this machine?"
-    If ($arrayYes.Contains($thisCompYN))
+# Determine which machine to inventory
+if (!($computername)) {
+    do
     {
-        $compName = $env:computername
-        $valid = 1
-    }
-    ElseIf ($arrayNo.Contains($thisCompYN))
-    {
-        $compName = read-host -prompt "Please enter machine name"
-        $valid = 1
-    }
-    Else
-    {
-        Write-Output ("Please enter 'yes' or 'no'")
-        $valid = 0
-    }
-} While ($valid -eq 0)
+        $thisCompYN = read-host -prompt "Would you like to inventory this machine?"
+        If ($arrayYes.Contains($thisCompYN))
+        {
+            $compName = $env:computername
+            $valid = 1
+        }
+        ElseIf ($arrayNo.Contains($thisCompYN))
+        {
+            $compName = read-host -prompt "Please enter machine name"
+            $valid = 1
+        }
+        Else
+        {
+            Write-Output ("Please enter 'yes' or 'no'")
+            $valid = 0
+        }
+    } while ($valid -eq 0)
+}
+else {
+    $compName = $computername
+}
 
-# Processing...
-Write-Output ("")
-Write-Output ("Processing...")
-Write-Output ("")
+# Output processing message
+Write-Output ("`n" + "Processing information from $compName..." + "`n")
 
 # Perform queries and convert results to strings
 Try
@@ -108,31 +117,56 @@ Catch [system.exception]
     {
         Write-Output ("Because this process was relatively fast and failed, it's likely that the machine is not a windows machine or is not connected to the RPC server.")
     }
-
 }
 
-# Print machine information
-Write-Output ("Machine Name: " + $compName)
-Write-Output ("CPU: " + $cpuName)
+# Gather machine information
+$output = "Machine Name: " + $compName + "`n" + "CPU: " + $cpuName + "`n" + "MAC" + ": " + $macAddress 
+$output += "`n" + "IPAddress1: " + $ipAddress + "`n" + "Model: " + $modelName + "`n" + "OS: " + $osVersion
+$output += "`n" + "RAM: " + $ramCapacity + "`n" + "ServiceTag: " + $serialNumber
+$output += "`n" + "OSInstallDate: " + $osInstallDate + "`n" + "LastLoginBy: " + $userName 
+$output += "`n" + "DiskDrive: " + $diskDrive
 
-# Print all mac addresses if multiple found
-<#
-If ($macArray.length -gt 0)
-{
-    for ($i = 1; $i -le $macArray.length; $i++)
+# Print machine information
+Write-Output ($output + "`n")
+
+# Save info to file
+if (!($outpath)) {
+    do
     {
-        Write-Output ("MAC" + $i + ": " + $macArray[$i - 1])
-    }
-} #>
-#Else
-#{
-    Write-Output ("MAC" + ": " + $macAddress)
-#}
-Write-Output ("IPAddress1: " + $ipAddress)
-Write-Output ("Model: " + $modelName)
-Write-Output ("OS: " + $osVersion)
-Write-Output ("RAM: " + $ramCapacity)
-Write-Output ("ServiceTag: " + $serialNumber)
-Write-Output ("OSInstallDate: " + $osInstallDate)
-Write-Output ("LastLoginBy: " + $userName)
-Write-Output ("DiskDrive: " + $diskDrive)
+        $thisCompYN = read-host -prompt "Would you like to save this to a file?"
+        If ($arrayYes.Contains($thisCompYN))
+        {
+            [void][System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms")
+            $SaveFileDialog = New-Object System.Windows.Forms.SaveFileDialog
+            $SaveFileDialog.Filter = "Text files (*.txt)|*.txt"
+            $SaveFileDialog.initialDirectory = $PSScriptRoot
+            $SaveFileDialog.FileName = $compName + " - " + (Get-Date).ToString('MM-dd-yyyy') 
+            if ($SaveFileDialog.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) { 
+                $output > $SaveFileDialog.FileName
+
+                # Output file saved message
+                Write-Output ("`n" + $SaveFileDialog.FileName + " saved." + "`n")
+            }
+
+            $valid = 1
+        }
+        ElseIf ($arrayNo.Contains($thisCompYN))
+        {
+            $valid = 1
+        }
+        Else
+        {
+            Write-Output ("Please enter 'yes' or 'no'")
+            $valid = 0
+        }
+    } while ($valid -eq 0)
+}
+else {
+    $output > $outpath
+
+    # Output file saved message
+    Write-Output ("`n" + $outpath + " saved." + "`n")
+}
+
+# Output end program message
+Write-Output ("`n" + "Program ending...")
