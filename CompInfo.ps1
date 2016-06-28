@@ -1,4 +1,5 @@
-﻿# ALL acquired values should be of type string
+﻿
+# ALL acquired values should be of type string
 
 # Time the program to help debug
 $elapsed = [System.Diagnostics.Stopwatch]::StartNew()
@@ -95,17 +96,18 @@ Write-Output ("Machine Name: " + $compName)
 Write-Output ("CPU: " + $cpuName)
 
 # Print all mac addresses if multiple found
+<#
 If ($macArray.length -gt 0)
 {
     for ($i = 1; $i -le $macArray.length; $i++)
     {
         Write-Output ("MAC" + $i + ": " + $macArray[$i - 1])
     }
-}
-Else
-{
-    Write-Output ("MAC" + "1" + ": " + $macArray[0])
-}
+} #>
+#Else
+#{
+    Write-Output ("MAC" + "1" + ": " + $macAddress)
+#}
 Write-Output ("IPAddress1: " + $ipAddress)
 Write-Output ("Model: " + $modelName)
 Write-Output ("OS: " + $osVersion)
