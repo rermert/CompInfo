@@ -117,6 +117,9 @@ Catch [system.exception]
     {
         Write-Output ("Because this process was relatively fast and failed, it's likely that the machine is not a windows machine or is not connected to the RPC server.")
     }
+
+    # Exit program on failure
+    Exit
 }
 
 # Gather machine information
