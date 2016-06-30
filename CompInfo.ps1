@@ -1,7 +1,7 @@
 ﻿<###############################################################################################
  # Author: Ryan Ermert
  # Version: 1.3
- # Last Updated: 06/28/2016
+ # Last Updated: 06/30/2016
  #
  # Filename: CompInfo.ps1
  #
@@ -13,10 +13,9 @@
  #   - Will not work if network computers are not connected to the RPC server.
  #   - May not work if network computer is not logged into.
  #   - All acquired values should be of type string
+ #   - Upon saving, an existing file of the same output filename will be overwritten
  #
  # TODO: 
- #   - Give option to output to file?
- #   - Add parameters?
  #   - Fix multiple MAC address issue
  #     - Splitting single address (1 char at a time)
  ###############################################################################################>
@@ -98,7 +97,6 @@ Try
     $diskDrive = get-wmiobject -ComputerName $CompName -class win32_diskdrive | select-object -expand model
     $diskDrive = $diskDrive#[0]
 }
-
 # One or more queries failed, inform user
 Catch [system.exception]
 {
@@ -145,6 +143,7 @@ if (!($outpath)) {
             $SaveFileDialog.initialDirectory = $PSScriptRoot
             $SaveFileDialog.FileName = $compName + " - " + (Get-Date).ToString('MM-dd-yyyy') 
             if ($SaveFileDialog.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) { 
+                # Write output to file
                 $output > $SaveFileDialog.FileName
 
                 # Output file saved message
@@ -165,6 +164,7 @@ if (!($outpath)) {
     } while ($valid -eq 0)
 }
 else {
+    # Write output to file
     $output > $outpath
 
     # Output file saved message
@@ -173,3 +173,6 @@ else {
 
 # Output end program message
 Write-Output ("`n" + "Program ending...")
+
+# Exit program
+Exit
