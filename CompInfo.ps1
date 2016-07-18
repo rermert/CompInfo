@@ -72,6 +72,7 @@ Try
     $cpuName = $cpuName -replace '\s+', ' '
 
     $macAddress = get-wmiobject -ComputerName $CompName -class win32_networkadapterconfiguration | select-object -expand macaddress
+    $macAddress = $macAddress -replace ":", "-"
     $macArray = $macAddress -split " " | select -unique
 
     $ipAddress = get-wmiobject -ComputerName $CompName -class win32_networkadapterconfiguration | select-object -expand ipaddress
