@@ -1,7 +1,7 @@
 ﻿<###############################################################################################
  # Author: Ryan Ermert
- # Version: 1.3
- # Last Updated: 06/30/2016
+ # Version: 1.4
+ # Last Updated: 07/18/2016
  #
  # Filename: CompInfo.ps1
  #
